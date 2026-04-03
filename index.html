@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestie? 😏</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #6a11cb);
+    overflow: hidden;
+    color: white;
+}
+
+.container {
+    text-align: center;
+    animation: fadeIn 1.5s ease;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s;
+}
+
+#yes {
+    background: #00ffae;
+    color: black;
+}
+
+#no {
+    background: #ff4d6d;
+    color: white;
+    position: absolute;
+}
+
+#musicBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: white;
+    color: black;
+    font-size: 14px;
+}
+
+.message {
+    margin-top: 15px;
+    font-size: 1.2rem;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.8);}
+    to {opacity: 1; transform: scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<button id="musicBtn">🎵 Music</button>
+
+<div class="container">
+    <h1>Will you be my best friend forever? 🥺❤️</h1>
+    <button id="yes">Yes 😍</button>
+    <button id="no">No 😒</button>
+    <div class="message" id="msg"></div>
+</div>
+
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const msg = document.getElementById("msg");
+const music = document.getElementById("music");
+const musicBtn = document.getElementById("musicBtn");
+
+const messages = [
+    "Are you sure? 😢",
+    "Think again 🥺",
+    "Don't do this 💔",
+    "I'm crying 😭",
+    "Last chance 😤"
+];
+
+let i = 0;
+let musicPlaying = false;
+
+// NO button moves
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    msg.innerText = messages[i % messages.length];
+    i++;
+
+    yesBtn.style.transform = `scale(${1 + i * 0.1})`;
+});
+
+// YES clicked
+yesBtn.addEventListener("click", () => {
+    document.body.innerHTML = `
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;background:linear-gradient(135deg,#00ffae,#6a11cb);">
+            <h1>Yay! Besties forever ❤️🎉</h1>
+            <p>You can't escape now 😏</p>
+        </div>
+    `;
+
+    // Confetti 🎉
+    setInterval(() => {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }, 800);
+});
+
+// Music toggle 🎶
+musicBtn.addEventListener("click", () => {
+    if (musicPlaying) {
+        music.pause();
+        musicBtn.innerText = "🎵 Music";
+    } else {
+        music.play();
+        musicBtn.innerText = "🔊 Playing";
+    }
+    musicPlaying = !musicPlaying;
+});
+</script>
+
+</body>
+  </html>
